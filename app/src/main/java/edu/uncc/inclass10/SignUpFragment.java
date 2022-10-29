@@ -19,13 +19,12 @@ import android.widget.Toast;
 import edu.uncc.inclass10.databinding.FragmentSignUpBinding;
 
 public class SignUpFragment extends Fragment {
+    FragmentSignUpBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
-    FragmentSignUpBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
