@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">InClass10</string>
     <string name="submit_label">Submit</string>
     <string name="cancel_label">Cancel</string>
     <string name="name_label">Full Name</string>
