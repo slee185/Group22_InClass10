@@ -1,3 +1,7 @@
+// Group22_InClass10
+// Post.java
+// Ken Stanley & Stephanie Karp
+
 package edu.uncc.inclass10.models;
 
 import java.io.Serializable;

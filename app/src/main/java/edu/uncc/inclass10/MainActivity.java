@@ -1,3 +1,7 @@
+// Group22_InClass10
+// MainActivity.java
+// Ken Stanley & Stephanie Karp
+
 package edu.uncc.inclass10;
 
 import androidx.appcompat.app.AppCompatActivity;

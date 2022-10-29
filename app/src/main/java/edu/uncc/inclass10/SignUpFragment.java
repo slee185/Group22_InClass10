@@ -1,3 +1,7 @@
+// Group22_InClass10
+// SignUpFragment.java
+// Ken Stanley & Stephanie Karp
+
 package edu.uncc.inclass10;
 
 import android.content.Context;
