@@ -19,9 +19,6 @@ import android.widget.Toast;
 import edu.uncc.inclass10.databinding.FragmentSignUpBinding;
 
 public class SignUpFragment extends Fragment {
-    public SignUpFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
