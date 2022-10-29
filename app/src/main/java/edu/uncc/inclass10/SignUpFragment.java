@@ -4,6 +4,7 @@
 
 package edu.uncc.inclass10;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -15,6 +16,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import edu.uncc.inclass10.databinding.FragmentSignUpBinding;
 
@@ -50,7 +58,37 @@ public class SignUpFragment extends Fragment {
             } else if (password.isEmpty()) {
                 Toast.makeText(getActivity(), "Enter valid password!", Toast.LENGTH_SHORT).show();
             } else {
+                FirebaseAuth auth = FirebaseAuth.getInstance();
 
+                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(createTask -> {
+                    if (!createTask.isSuccessful()) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                        builder
+                                .setTitle(R.string.error_account_create_title)
+                                .setMessage(getString(R.string.error_account_create_message));
+
+                        return;
+                    }
+
+                    FirebaseUser user = createTask.getResult().getUser();
+                    UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                            .setDisplayName(name)
+                            .build();
+
+                    assert user != null;
+                    user.updateProfile(request).addOnCompleteListener(updateTask -> {
+                        if (!updateTask.isSuccessful()) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                            builder
+                                    .setTitle(R.string.error_account_create_title)
+                                    .setMessage(getString(R.string.error_account_create_message));
+
+                            return;
+                        }
+
+                        mListener.goToPosts();
+                    });
+                });
             }
         });
 
