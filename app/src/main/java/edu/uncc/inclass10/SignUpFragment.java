@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -87,7 +88,19 @@ public class SignUpFragment extends Fragment {
                         }
 
                         mListener.goToPosts();
+                    })
+                    .addOnFailureListener(e -> {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                        builder
+                                .setTitle(R.string.error_account_create_title)
+                                .setMessage(e.getMessage());
                     });
+                })
+                .addOnFailureListener(e -> {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                    builder
+                            .setTitle(R.string.error_account_create_title)
+                            .setMessage(e.getMessage());
                 });
             }
         });
