@@ -71,5 +71,6 @@ public class SignUpFragment extends Fragment {
 
     interface SignUpListener {
         void login();
+        public void goToPosts();
     }
 }

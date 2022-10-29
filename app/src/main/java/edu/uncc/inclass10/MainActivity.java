@@ -48,6 +48,13 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                 .commit();
     }
 
+    public void goToPosts() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.containerView, new PostsFragment())
+                .addToBackStack(null)
+                .commit();
+    }
+
     @Override
     public void goBackToPosts() {
         getSupportFragmentManager().popBackStack();
