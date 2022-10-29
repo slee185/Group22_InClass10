@@ -31,7 +31,7 @@ public class SignUpFragment extends Fragment {
     FragmentSignUpBinding binding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentSignUpBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -40,34 +40,25 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.login();
+        binding.buttonCancel.setOnClickListener(v -> mListener.login());
+
+        binding.buttonSignup.setOnClickListener(v -> {
+            String name = binding.editTextName.getText().toString();
+            String email = binding.editTextEmail.getText().toString();
+            String password = binding.editTextPassword.getText().toString();
+
+            if (name.isEmpty()) {
+                Toast.makeText(getActivity(), "Enter valid name!", Toast.LENGTH_SHORT).show();
+            } else if (email.isEmpty()) {
+                Toast.makeText(getActivity(), "Enter valid email!", Toast.LENGTH_SHORT).show();
+            } else if (password.isEmpty()) {
+                Toast.makeText(getActivity(), "Enter valid password!", Toast.LENGTH_SHORT).show();
+            } else {
+
             }
         });
 
-        binding.buttonSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = binding.editTextName.getText().toString();
-                String email = binding.editTextEmail.getText().toString();
-                String password = binding.editTextPassword.getText().toString();
-
-                if(name.isEmpty()){
-                    Toast.makeText(getActivity(), "Enter valid name!", Toast.LENGTH_SHORT).show();
-                } else if(email.isEmpty()){
-                    Toast.makeText(getActivity(), "Enter valid email!", Toast.LENGTH_SHORT).show();
-                } else if (password.isEmpty()){
-                    Toast.makeText(getActivity(), "Enter valid password!", Toast.LENGTH_SHORT).show();
-                } else {
-
-                }
-            }
-        });
-
-        getActivity().setTitle(R.string.create_account_label);
-
+        requireActivity().setTitle(R.string.create_account_label);
     }
 
     SignUpListener mListener;

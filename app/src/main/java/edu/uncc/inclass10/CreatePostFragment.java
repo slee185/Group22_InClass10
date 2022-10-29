@@ -68,7 +68,7 @@ public class CreatePostFragment extends Fragment {
     FragmentCreatePostBinding binding;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCreatePostBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -78,28 +78,17 @@ public class CreatePostFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.goBackToPosts();
+        binding.buttonCancel.setOnClickListener(v -> mListener.goBackToPosts());
+
+        binding.buttonSubmit.setOnClickListener(v -> {
+            String postText = binding.editTextPostText.getText().toString();
+            if (postText.isEmpty()) {
+                Toast.makeText(getActivity(), "Enter valid post !!", Toast.LENGTH_SHORT).show();
+            } else {
             }
         });
 
-        binding.buttonSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String postText = binding.editTextPostText.getText().toString();
-                if(postText.isEmpty()){
-                    Toast.makeText(getActivity(), "Enter valid post !!", Toast.LENGTH_SHORT).show();
-                } else {
-
-
-
-                }
-            }
-        });
-
-        getActivity().setTitle(R.string.create_post_label);
+        requireActivity().setTitle(R.string.create_post_label);
     }
 
     CreatePostListener mListener;
