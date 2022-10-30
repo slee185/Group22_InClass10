@@ -4,6 +4,7 @@
 
 package edu.uncc.inclass10;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -16,12 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import edu.uncc.inclass10.databinding.FragmentCreatePostBinding;
 import edu.uncc.inclass10.models.Post;
@@ -31,6 +33,8 @@ public class CreatePostFragment extends Fragment {
     private static final String ARG_USER = "user";
 
     private FirebaseUser user;
+    private final FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+    private final CollectionReference mPosts = mStore.collection("posts");
 
     public CreatePostFragment() {
         // Required empty public constructor
@@ -71,9 +75,22 @@ public class CreatePostFragment extends Fragment {
             if (postText.isEmpty()) {
                 Toast.makeText(getActivity(), "Enter valid post !!", Toast.LENGTH_SHORT).show();
             } else {
-                Post post = new Post();
-                buildPost(postText, post);
-                mListener.goBackToPosts();
+                Post post = new Post(user.getDisplayName(), user.getUid(), postText);
+                mPosts.add(post)
+                        .addOnCompleteListener(task -> {
+                            if (!task.isSuccessful()) {
+                                return;
+                            }
+
+                            mListener.goBackToPosts();
+                        })
+                        .addOnFailureListener(e -> {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                            builder
+                                    .setTitle(R.string.error_account_title)
+                                    .setMessage(e.getMessage())
+                                    .show();
+                        });
             }
         });
 
@@ -81,15 +98,6 @@ public class CreatePostFragment extends Fragment {
     }
 
     CreatePostListener mListener;
-
-    public void buildPost(String postText, Post post) {
-        post.created_by_name = user.getDisplayName();
-        post.post_id = getString(mPosts.size() + 1);
-        post.created_by_uid = user.getUid();
-        post.post_text = postText;
-        Date drinkDate = Calendar.getInstance().getTime();
-        post.created_at = drinkDate.toString();
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {
