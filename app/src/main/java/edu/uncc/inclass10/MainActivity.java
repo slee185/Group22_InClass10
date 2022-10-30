@@ -37,7 +37,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
     @Override
     public void logout() {
-
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.containerView, new LoginFragment())
+                .commit();
     }
 
     @Override
