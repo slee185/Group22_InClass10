@@ -7,6 +7,7 @@ package edu.uncc.inclass10.models;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -32,8 +33,14 @@ public class Post implements Serializable {
         this.post_text = post_text;
     }
 
-    public String getCreated_at() {
-        return created_at;
+    public String getCreated_at() throws ParseException {
+        // We need to parse the string using a formatter with the same expected format.
+        Date date = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ").parse(this.created_at);
+        assert date != null;
+
+        // Now we can reformat the date into our human-readable format.
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        return formatter.format(date);
     }
 
     public String getCreated_by_name() {
