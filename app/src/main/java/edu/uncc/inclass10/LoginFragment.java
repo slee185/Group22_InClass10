@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import edu.uncc.inclass10.databinding.FragmentLoginBinding;
 
@@ -61,8 +62,8 @@ public class LoginFragment extends Fragment {
                             if (!loginTask.isSuccessful()) {
                                 return;
                             }
-
-                            mListener.goToPosts();
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            mListener.goToPosts(user);
                         })
                         .addOnFailureListener(e -> {
                             AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
@@ -90,6 +91,7 @@ public class LoginFragment extends Fragment {
 
     interface LoginListener {
         void createNewAccount();
-        void goToPosts();
+
+        void goToPosts(FirebaseUser user);
     }
 }

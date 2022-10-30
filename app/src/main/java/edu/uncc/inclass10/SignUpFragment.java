@@ -73,7 +73,7 @@ public class SignUpFragment extends Fragment {
                             return;
                         }
 
-                        mListener.goToPosts();
+                        mListener.goToPosts(user);
                     })
                     .addOnFailureListener(e -> {
                         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
@@ -106,6 +106,6 @@ public class SignUpFragment extends Fragment {
 
     interface SignUpListener {
         void login();
-        public void goToPosts();
+        void goToPosts(FirebaseUser user);
     }
 }

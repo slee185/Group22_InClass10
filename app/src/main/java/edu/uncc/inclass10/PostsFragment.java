@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -27,33 +28,18 @@ import edu.uncc.inclass10.models.Post;
 
 public class PostsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_USER = "user";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FirebaseUser user;
 
     public PostsFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PostsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PostsFragment newInstance(String param1, String param2) {
+    public static PostsFragment newInstance(FirebaseUser user) {
         PostsFragment fragment = new PostsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelable(ARG_USER, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,8 +48,7 @@ public class PostsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            user = getArguments().getParcelable(ARG_USER);
         }
     }
 
@@ -130,9 +115,8 @@ public class PostsFragment extends Fragment {
                 mBinding.textViewPost.setText(post.getPost_text());
                 mBinding.textViewCreatedBy.setText(post.getCreated_by_name());
                 mBinding.textViewCreatedAt.setText(post.getCreated_at());
-                mBinding.imageViewDelete.setOnClickListener(v -> {
-
-                });
+                mBinding.imageViewDelete.setEnabled(mPost.created_by_uid.equals(user.getUid()));
+                mBinding.imageViewDelete.setOnClickListener(v -> mPosts.remove(post));
             }
         }
 
