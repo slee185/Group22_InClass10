@@ -29,6 +29,7 @@ public class CreatePostFragment extends Fragment {
     private static final String ARG_USER = "user";
 
     private FirebaseUser user;
+
     private final FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private final CollectionReference mPosts = mStore.collection("posts");
 
@@ -65,6 +66,7 @@ public class CreatePostFragment extends Fragment {
 
         binding.buttonSubmit.setOnClickListener(v -> {
             String postText = binding.editTextPostText.getText().toString();
+
             if (postText.isEmpty()) {
                 Toast.makeText(getActivity(), "Enter valid post !!", Toast.LENGTH_SHORT).show();
             } else {
@@ -74,7 +76,6 @@ public class CreatePostFragment extends Fragment {
                             if (!task.isSuccessful()) {
                                 return;
                             }
-
                             mListener.goBackToPosts();
                         })
                         .addOnFailureListener(e -> {
