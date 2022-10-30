@@ -13,9 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -25,6 +27,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+
+import java.text.ParseException;
+import java.util.Objects;
 
 import edu.uncc.inclass10.databinding.FragmentPostsBinding;
 import edu.uncc.inclass10.models.Post;
@@ -87,8 +92,16 @@ public class PostsFragment extends Fragment {
         adapter = new FirestoreRecyclerAdapter<Post, PostHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull PostHolder holder, int position, @NonNull Post model) {
+                try {
+                    holder.setCreated_at(model.getCreated_at());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return;
+                }
+
                 holder.setCreated_by_name(model.getCreated_by_name());
-                holder.setCreated_at(model.getCreated_at());
+                holder.setCreated_by_uid(model.getCreated_by_uid(), user);
+                holder.setPost_id(model.getPost_id());
                 holder.setPost_text(model.getPost_text());
             }
 
@@ -143,6 +156,25 @@ public class PostsFragment extends Fragment {
         void setPost_text(String post_text) {
             TextView textView = (TextView) view.findViewById(R.id.textViewPost);
             textView.setText(post_text);
+        }
+
+        void setCreated_by_uid(String created_by_uid, FirebaseUser user) {
+            ImageView delete = (ImageView) view.findViewById(R.id.imageViewDelete);
+            delete.setEnabled(Objects.equals(created_by_uid, user.getUid()));
+            delete.setVisibility(delete.isEnabled() ? View.VISIBLE : View.INVISIBLE);
+        }
+
+        void setPost_id(String post_id) {
+            ImageView delete = (ImageView) view.findViewById(R.id.imageViewDelete);
+
+            if (delete.isEnabled()) {
+                delete.setOnClickListener(view -> {
+                    // TODO Delete the post
+                    Log.d("demo", "onClick: Clicking worked");
+                });
+            } else {
+                Log.d("demo", "onClick: Clicking did not work");
+            }
         }
     }
 
