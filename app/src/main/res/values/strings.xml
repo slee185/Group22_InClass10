@@ -14,4 +14,5 @@
     <string name="error_account_title">An Error Occurred</string>
     <string name="error_account_create_message">An error occurred while creating your account.</string>
     <string name="error_account_login_message">Unable to authenticate your username or password.</string>
+    <string name="welcome_title">Welcome %s</string>
 </resources>

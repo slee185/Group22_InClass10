@@ -68,6 +68,7 @@ public class PostsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        binding.textViewTitle.setText(getString(R.string.welcome_title, user.getDisplayName()));
         binding.buttonCreatePost.setOnClickListener(v -> mListener.createPost());
 
         binding.buttonLogout.setOnClickListener(v -> {
