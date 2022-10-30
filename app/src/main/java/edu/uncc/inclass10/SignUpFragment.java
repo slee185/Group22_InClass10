@@ -58,38 +58,39 @@ public class SignUpFragment extends Fragment {
                 FirebaseAuth auth = FirebaseAuth.getInstance();
 
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(createTask -> {
-                    if (!createTask.isSuccessful()) {
-                        return;
-                    }
+                            if (!createTask.isSuccessful()) {
+                                return;
+                            }
 
-                    FirebaseUser user = createTask.getResult().getUser();
-                    UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
-                            .setDisplayName(name)
-                            .build();
+                            FirebaseUser user = createTask.getResult().getUser();
+                            UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(name)
+                                    .build();
 
-                    assert user != null;
-                    user.updateProfile(request).addOnCompleteListener(updateTask -> {
-                        if (!updateTask.isSuccessful()) {
-                            return;
-                        }
+                            assert user != null;
+                            user.updateProfile(request)
+                                    .addOnCompleteListener(updateTask -> {
+                                        if (!updateTask.isSuccessful()) {
+                                            return;
+                                        }
 
-                        mListener.goToPosts(user);
-                    })
-                    .addOnFailureListener(e -> {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-                        builder
-                                .setTitle(R.string.error_account_title)
-                                .setMessage(e.getMessage())
-                                .show();
-                    });
-                })
-                .addOnFailureListener(e -> {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-                    builder
-                            .setTitle(R.string.error_account_title)
-                            .setMessage(e.getMessage())
-                            .show();
-                });
+                                        mListener.goToPosts(user);
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                                        builder
+                                                .setTitle(R.string.error_account_title)
+                                                .setMessage(e.getMessage())
+                                                .show();
+                                    });
+                        })
+                        .addOnFailureListener(e -> {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                            builder
+                                    .setTitle(R.string.error_account_title)
+                                    .setMessage(e.getMessage())
+                                    .show();
+                        });
             }
         });
 
