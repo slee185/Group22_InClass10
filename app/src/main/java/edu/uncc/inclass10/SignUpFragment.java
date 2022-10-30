@@ -83,14 +83,16 @@ public class SignUpFragment extends Fragment {
                         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
                         builder
                                 .setTitle(R.string.error_account_title)
-                                .setMessage(e.getMessage());
+                                .setMessage(e.getMessage())
+                                .show();
                     });
                 })
                 .addOnFailureListener(e -> {
                     AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
                     builder
                             .setTitle(R.string.error_account_title)
-                            .setMessage(e.getMessage());
+                            .setMessage(e.getMessage())
+                            .show();
                 });
             }
         });
