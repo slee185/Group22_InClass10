@@ -10,6 +10,10 @@ import android.os.Bundle;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+
+import edu.uncc.inclass10.models.Post;
+
 public class MainActivity extends AppCompatActivity implements LoginFragment.LoginListener,
         SignUpFragment.SignUpListener, PostsFragment.PostsListener, CreatePostFragment.CreatePostListener {
 
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                 .addToBackStack(null)
                 .commit();
     }
+
 
     @Override
     public void goBackToPosts() {

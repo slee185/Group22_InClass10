@@ -64,7 +64,11 @@ public class PostsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.buttonCreatePost.setOnClickListener(v -> mListener.createPost());
+        binding.buttonCreatePost.setOnClickListener(v -> {
+            mListener.createPost();
+            postsAdapter.notifyDataSetChanged();
+            mListener.goBackToPosts();
+        });
 
         binding.buttonLogout.setOnClickListener(v -> {
             FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -80,6 +84,7 @@ public class PostsFragment extends Fragment {
     }
 
     PostsAdapter postsAdapter;
+
     ArrayList<Post> mPosts = new ArrayList<>();
 
     class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHolder> {
@@ -134,5 +139,7 @@ public class PostsFragment extends Fragment {
         void logout();
 
         void createPost();
+
+        void goBackToPosts();
     }
 }
