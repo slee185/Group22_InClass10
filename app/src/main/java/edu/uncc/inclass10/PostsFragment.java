@@ -64,11 +64,7 @@ public class PostsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.buttonCreatePost.setOnClickListener(v -> {
-            mListener.createPost();
-            postsAdapter.notifyDataSetChanged();
-            mListener.goBackToPosts();
-        });
+        binding.buttonCreatePost.setOnClickListener(v -> mListener.createPost());
 
         binding.buttonLogout.setOnClickListener(v -> {
             FirebaseAuth auth = FirebaseAuth.getInstance();
