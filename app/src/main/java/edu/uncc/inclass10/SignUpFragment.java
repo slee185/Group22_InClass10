@@ -63,11 +63,6 @@ public class SignUpFragment extends Fragment {
 
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(createTask -> {
                     if (!createTask.isSuccessful()) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-                        builder
-                                .setTitle(R.string.error_account_title)
-                                .setMessage(getString(R.string.error_account_create_message));
-
                         return;
                     }
 
@@ -79,11 +74,6 @@ public class SignUpFragment extends Fragment {
                     assert user != null;
                     user.updateProfile(request).addOnCompleteListener(updateTask -> {
                         if (!updateTask.isSuccessful()) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-                            builder
-                                    .setTitle(R.string.error_account_title)
-                                    .setMessage(getString(R.string.error_account_create_message));
-
                             return;
                         }
 
