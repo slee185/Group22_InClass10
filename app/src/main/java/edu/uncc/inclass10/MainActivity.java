@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     @Override
     public void createPost() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.containerView, new CreatePostFragment())
+                .replace(R.id.containerView, CreatePostFragment.newInstance(user))
                 .addToBackStack(null)
                 .commit();
     }
