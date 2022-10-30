@@ -65,7 +65,7 @@ public class SignUpFragment extends Fragment {
                     if (!createTask.isSuccessful()) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
                         builder
-                                .setTitle(R.string.error_account_create_title)
+                                .setTitle(R.string.error_account_title)
                                 .setMessage(getString(R.string.error_account_create_message));
 
                         return;
@@ -81,7 +81,7 @@ public class SignUpFragment extends Fragment {
                         if (!updateTask.isSuccessful()) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
                             builder
-                                    .setTitle(R.string.error_account_create_title)
+                                    .setTitle(R.string.error_account_title)
                                     .setMessage(getString(R.string.error_account_create_message));
 
                             return;
@@ -92,14 +92,14 @@ public class SignUpFragment extends Fragment {
                     .addOnFailureListener(e -> {
                         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
                         builder
-                                .setTitle(R.string.error_account_create_title)
+                                .setTitle(R.string.error_account_title)
                                 .setMessage(e.getMessage());
                     });
                 })
                 .addOnFailureListener(e -> {
                     AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
                     builder
-                            .setTitle(R.string.error_account_create_title)
+                            .setTitle(R.string.error_account_title)
                             .setMessage(e.getMessage());
                 });
             }

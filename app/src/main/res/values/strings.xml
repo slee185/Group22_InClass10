@@ -11,6 +11,6 @@
     <string name="create_post_label">Create Post</string>
     <string name="posts_label">Posts</string>
     <string name="create_account_label">Create New Account</string>
-    <string name="error_account_create_title">An Error Occurred</string>
+    <string name="error_account_title">An Error Occurred</string>
     <string name="error_account_create_message">An error occurred while creating your account.</string>
 </resources>
