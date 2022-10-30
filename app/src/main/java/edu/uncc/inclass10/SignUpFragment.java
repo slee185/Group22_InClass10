@@ -24,6 +24,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import edu.uncc.inclass10.databinding.FragmentSignUpBinding;
 
 public class SignUpFragment extends Fragment {
+
     FragmentSignUpBinding binding;
 
     @Override
@@ -32,8 +33,7 @@ public class SignUpFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentSignUpBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
