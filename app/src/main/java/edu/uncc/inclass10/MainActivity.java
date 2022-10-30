@@ -17,6 +17,8 @@ import edu.uncc.inclass10.models.Post;
 public class MainActivity extends AppCompatActivity implements LoginFragment.LoginListener,
         SignUpFragment.SignUpListener, PostsFragment.PostsListener, CreatePostFragment.CreatePostListener {
 
+    private FirebaseUser user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +59,17 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     }
 
     @Override
-    public void goToPosts(FirebaseUser user) {
+    public void goToPosts() {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.containerView, PostsFragment.newInstance(user))
                 .addToBackStack(null)
                 .commit();
     }
 
+    @Override
+    public void setUser(FirebaseUser user) {
+        this.user = user;
+    }
 
     @Override
     public void goBackToPosts() {

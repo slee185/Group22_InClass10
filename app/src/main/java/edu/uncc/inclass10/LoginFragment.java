@@ -63,7 +63,8 @@ public class LoginFragment extends Fragment {
                                 return;
                             }
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            mListener.goToPosts(user);
+                            mListener.setUser(user);
+                            mListener.goToPosts();
                         })
                         .addOnFailureListener(e -> {
                             AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
@@ -92,6 +93,8 @@ public class LoginFragment extends Fragment {
     interface LoginListener {
         void createNewAccount();
 
-        void goToPosts(FirebaseUser user);
+        void setUser(FirebaseUser user);
+
+        void goToPosts();
     }
 }
