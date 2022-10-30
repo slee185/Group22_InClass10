@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -31,20 +29,17 @@ import edu.uncc.inclass10.models.Post;
 public class CreatePostFragment extends Fragment {
 
     private static final String ARG_USER = "user";
-    private static final String ARG_POSTSLIST = "postsList";
 
     private FirebaseUser user;
-    private ArrayList<Post> mPosts = new ArrayList<>();
 
     public CreatePostFragment() {
         // Required empty public constructor
     }
 
-    public static CreatePostFragment newInstance(FirebaseUser user, ArrayList<Post> mPosts) {
+    public static CreatePostFragment newInstance(FirebaseUser user) {
         CreatePostFragment fragment = new CreatePostFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_USER, user);
-        args.putSerializable(ARG_POSTSLIST, mPosts);
         fragment.setArguments(args);
         return fragment;
     }
@@ -54,7 +49,6 @@ public class CreatePostFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             user = getArguments().getParcelable(ARG_USER);
-            mPosts = (ArrayList<Post>) getArguments().getSerializable(ARG_POSTSLIST);
         }
     }
 
@@ -79,7 +73,6 @@ public class CreatePostFragment extends Fragment {
             } else {
                 Post post = new Post();
                 buildPost(postText, post);
-                mPosts.add(post);
                 mListener.goBackToPosts();
             }
         });
