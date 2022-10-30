@@ -7,12 +7,24 @@ package edu.uncc.inclass10.models;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.UUID;
 
 public class Post implements Serializable {
 
-    public String created_by_name, post_id, created_by_uid, post_text, created_at;
+    public final String created_by_name, post_id, created_by_uid, post_text, created_at;
 
-    public Post() {
+    public Post(String created_by_name, String created_by_uid, String post_text) {
+        final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ", Locale.US);
+
+        this.post_id = UUID.randomUUID().toString();
+        this.created_at = format.format(new Date());
+
+        this.created_by_name = created_by_name;
+        this.created_by_uid = created_by_uid;
+        this.post_text = post_text;
     }
 
     public String getCreated_by_name() {
