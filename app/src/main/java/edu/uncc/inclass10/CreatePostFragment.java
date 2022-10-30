@@ -36,6 +36,8 @@ public class CreatePostFragment extends Fragment {
     private final FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private final CollectionReference mPosts = mStore.collection("posts");
 
+    FragmentCreatePostBinding binding;
+    CreatePostListener mListener;
 
     public static CreatePostFragment newInstance(FirebaseUser user) {
         CreatePostFragment fragment = new CreatePostFragment();
@@ -52,8 +54,6 @@ public class CreatePostFragment extends Fragment {
             user = getArguments().getParcelable(ARG_USER);
         }
     }
-
-    FragmentCreatePostBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,8 +93,6 @@ public class CreatePostFragment extends Fragment {
 
         requireActivity().setTitle(R.string.create_post_label);
     }
-
-    CreatePostListener mListener;
 
     @Override
     public void onAttach(@NonNull Context context) {
