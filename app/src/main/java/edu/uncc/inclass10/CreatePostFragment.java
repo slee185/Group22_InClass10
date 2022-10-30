@@ -36,9 +36,6 @@ public class CreatePostFragment extends Fragment {
     private final FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private final CollectionReference mPosts = mStore.collection("posts");
 
-    public CreatePostFragment() {
-        // Required empty public constructor
-    }
 
     public static CreatePostFragment newInstance(FirebaseUser user) {
         CreatePostFragment fragment = new CreatePostFragment();
