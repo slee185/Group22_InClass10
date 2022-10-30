@@ -172,8 +172,6 @@ public class PostsFragment extends Fragment {
                     // TODO Delete the post
                     Log.d("demo", "onClick: Clicking worked");
                 });
-            } else {
-                Log.d("demo", "onClick: Clicking did not work");
             }
         }
     }
