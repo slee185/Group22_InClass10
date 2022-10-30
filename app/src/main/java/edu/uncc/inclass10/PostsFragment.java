@@ -16,25 +16,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.ArrayList;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import edu.uncc.inclass10.databinding.FragmentPostsBinding;
-import edu.uncc.inclass10.databinding.PostRowItemBinding;
 import edu.uncc.inclass10.models.Post;
 
 public class PostsFragment extends Fragment {
 
     private static final String ARG_USER = "user";
 
-    private FirebaseUser user;
+    private FirestoreRecyclerAdapter<Post, PostHolder> adapter;
 
-    public PostsFragment() {
-        // Required empty public constructor
-    }
+    private FirebaseUser user;
+    private final FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+    private final CollectionReference mPosts = mStore.collection("posts");
+
+    FragmentPostsBinding binding;
+    PostsListener mListener;
 
     public static PostsFragment newInstance(FirebaseUser user) {
         PostsFragment fragment = new PostsFragment();
@@ -51,8 +57,6 @@ public class PostsFragment extends Fragment {
             user = getArguments().getParcelable(ARG_USER);
         }
     }
-
-    FragmentPostsBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,62 +77,72 @@ public class PostsFragment extends Fragment {
         });
 
         binding.recyclerViewPosts.setLayoutManager(new LinearLayoutManager(getContext()));
-        postsAdapter = new PostsAdapter();
-        binding.recyclerViewPosts.setAdapter(postsAdapter);
+
+        Query query = mPosts.orderBy("created_at", Query.Direction.DESCENDING);
+        FirestoreRecyclerOptions<Post> options = new FirestoreRecyclerOptions.Builder<Post>()
+                .setQuery(query, Post.class)
+                .build();
+
+        adapter = new FirestoreRecyclerAdapter<Post, PostHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull PostHolder holder, int position, @NonNull Post model) {
+                holder.setCreated_by_name(model.getCreated_by_name());
+                holder.setCreated_at(model.getCreated_at());
+                holder.setPost_text(model.getPost_text());
+            }
+
+            @NonNull
+            @Override
+            public PostHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_row_item, parent, false);
+                return new PostHolder(view);
+            }
+        };
+        binding.recyclerViewPosts.setAdapter(adapter);
 
         requireActivity().setTitle(R.string.posts_label);
     }
 
-    PostsAdapter postsAdapter;
-
-    ArrayList<Post> mPosts = new ArrayList<>();
-
-    class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHolder> {
-        @NonNull
-        @Override
-        public PostsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            PostRowItemBinding binding = PostRowItemBinding.inflate(getLayoutInflater(), parent, false);
-            return new PostsViewHolder(binding);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull PostsViewHolder holder, int position) {
-            Post post = mPosts.get(position);
-            holder.setupUI(post);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mPosts.size();
-        }
-
-        class PostsViewHolder extends RecyclerView.ViewHolder {
-            PostRowItemBinding mBinding;
-            Post mPost;
-
-            public PostsViewHolder(PostRowItemBinding binding) {
-                super(binding.getRoot());
-                mBinding = binding;
-            }
-
-            public void setupUI(Post post) {
-                mPost = post;
-                mBinding.textViewPost.setText(post.getPost_text());
-                mBinding.textViewCreatedBy.setText(post.getCreated_by_name());
-                mBinding.textViewCreatedAt.setText(post.getCreated_at());
-                mBinding.imageViewDelete.setEnabled(mPost.created_by_uid.equals(user.getUid()));
-                mBinding.imageViewDelete.setOnClickListener(v -> mPosts.remove(post));
-            }
-        }
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
     }
 
-    PostsListener mListener;
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mListener = (PostsListener) context;
+    }
+
+    private static class PostHolder extends RecyclerView.ViewHolder {
+        private final View view;
+
+        PostHolder(View itemView) {
+            super(itemView);
+            view = itemView;
+        }
+
+        void setCreated_at(String created_at) {
+            TextView textView = (TextView) view.findViewById(R.id.textViewCreatedAt);
+            textView.setText(created_at);
+        }
+
+        void setCreated_by_name(String created_by_name) {
+            TextView textView = (TextView) view.findViewById(R.id.textViewCreatedBy);
+            textView.setText(created_by_name);
+        }
+
+        void setPost_text(String post_text) {
+            TextView textView = (TextView) view.findViewById(R.id.textViewPost);
+            textView.setText(post_text);
+        }
     }
 
     interface PostsListener {
