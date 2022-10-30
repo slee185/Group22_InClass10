@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 
 import edu.uncc.inclass10.databinding.FragmentPostsBinding;
@@ -68,8 +70,7 @@ public class PostsFragment extends Fragment {
     FragmentPostsBinding binding;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPostsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -80,7 +81,11 @@ public class PostsFragment extends Fragment {
 
         binding.buttonCreatePost.setOnClickListener(v -> mListener.createPost());
 
-        binding.buttonLogout.setOnClickListener(v -> mListener.logout());
+        binding.buttonLogout.setOnClickListener(v -> {
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            auth.signOut();
+            mListener.logout();
+        });
 
         binding.recyclerViewPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         postsAdapter = new PostsAdapter();

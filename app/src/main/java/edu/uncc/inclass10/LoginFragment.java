@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import edu.uncc.inclass10.databinding.FragmentLoginBinding;
 
 public class LoginFragment extends Fragment {
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -35,8 +36,7 @@ public class LoginFragment extends Fragment {
     FragmentLoginBinding binding;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentLoginBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -48,6 +48,7 @@ public class LoginFragment extends Fragment {
         binding.buttonLogin.setOnClickListener(v -> {
             String email = binding.editTextEmail.getText().toString();
             String password = binding.editTextPassword.getText().toString();
+
             if (email.isEmpty()) {
                 Toast.makeText(getActivity(), "Enter valid email!", Toast.LENGTH_SHORT).show();
             } else if (password.isEmpty()) {
