@@ -4,9 +4,12 @@
 
 package edu.uncc.inclass10.models;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class Post implements Serializable {
+
     public String created_by_name, post_id, created_by_uid, post_text, created_at;
 
     public Post() {
@@ -32,6 +35,7 @@ public class Post implements Serializable {
         return created_at;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Post{" +

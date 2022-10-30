@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity implements LoginFragment.LoginListener,
         SignUpFragment.SignUpListener, PostsFragment.PostsListener, CreatePostFragment.CreatePostListener {
 
@@ -37,7 +39,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
     @Override
     public void logout() {
-
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.containerView, new LoginFragment())
+                .commit();
     }
 
     @Override
@@ -48,9 +52,10 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                 .commit();
     }
 
-    public void goToPosts() {
+    @Override
+    public void goToPosts(FirebaseUser user) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.containerView, new PostsFragment())
+                .replace(R.id.containerView, PostsFragment.newInstance(user))
                 .addToBackStack(null)
                 .commit();
     }
@@ -59,4 +64,5 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     public void goBackToPosts() {
         getSupportFragmentManager().popBackStack();
     }
+
 }
