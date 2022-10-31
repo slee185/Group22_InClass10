@@ -14,6 +14,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class Post implements Serializable {
+
     private String created_by_name;
     private String post_id;
     private String created_by_uid;

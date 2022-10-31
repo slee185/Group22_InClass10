@@ -22,9 +22,12 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -41,6 +44,7 @@ public class PostsFragment extends Fragment {
     private FirestoreRecyclerAdapter<Post, PostHolder> adapter;
 
     private FirebaseUser user;
+
     private final FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private final CollectionReference mPosts = mStore.collection("posts");
 
@@ -85,6 +89,7 @@ public class PostsFragment extends Fragment {
         binding.recyclerViewPosts.setLayoutManager(new LinearLayoutManager(getContext()));
 
         Query query = mPosts.orderBy("created_at", Query.Direction.DESCENDING);
+
         FirestoreRecyclerOptions<Post> options = new FirestoreRecyclerOptions.Builder<Post>()
                 .setQuery(query, Post.class)
                 .build();
@@ -101,7 +106,7 @@ public class PostsFragment extends Fragment {
 
                 holder.setCreated_by_name(model.getCreated_by_name());
                 holder.setCreated_by_uid(model.getCreated_by_uid(), user);
-                holder.setPost_id(model.getPost_id());
+                holder.setPost_id(model.getPost_id(), mStore);
                 holder.setPost_text(model.getPost_text());
             }
 
@@ -164,12 +169,25 @@ public class PostsFragment extends Fragment {
             delete.setVisibility(delete.isEnabled() ? View.VISIBLE : View.INVISIBLE);
         }
 
-        void setPost_id(String post_id) {
+        void setPost_id(String post_id, FirebaseFirestore mStore) {
             ImageView delete = (ImageView) view.findViewById(R.id.imageViewDelete);
 
             if (delete.isEnabled()) {
                 delete.setOnClickListener(view -> {
-                    // TODO Delete the post
+                    mStore.collection("posts").document("post")
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Log.d("demo", "Post successfully deleted");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("demo", "Error deleting post", e);
+                                }
+                            });
                     Log.d("demo", "onClick: Clicking worked");
                 });
             }
