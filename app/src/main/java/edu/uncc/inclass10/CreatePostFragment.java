@@ -71,7 +71,7 @@ public class CreatePostFragment extends Fragment {
                 Toast.makeText(getActivity(), "Enter valid post !!", Toast.LENGTH_SHORT).show();
             } else {
                 Post post = new Post(user.getDisplayName(), user.getUid(), postText);
-                mPosts.add(post)
+                mPosts.document(post.getPost_id()).set(post)
                         .addOnCompleteListener(task -> {
                             if (!task.isSuccessful()) {
                                 return;
