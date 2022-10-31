@@ -35,6 +35,10 @@ public class Post implements Serializable {
     }
 
     public String getCreated_at() throws ParseException {
+        return this.created_at;
+    }
+
+    public String getCreated_atFormatted() throws ParseException {
         // We need to parse the string using a formatter with the same expected format.
         Date date = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ").parse(this.created_at);
         assert date != null;

@@ -98,7 +98,7 @@ public class PostsFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull PostHolder holder, int position, @NonNull Post model) {
                 try {
-                    holder.setCreated_at(model.getCreated_at());
+                    holder.setCreated_at(model.getCreated_atFormatted());
                 } catch (ParseException e) {
                     e.printStackTrace();
                     return;
