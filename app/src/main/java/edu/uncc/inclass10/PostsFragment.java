@@ -149,28 +149,28 @@ public class PostsFragment extends Fragment {
         }
 
         void setCreated_at(String created_at) {
-            TextView textView = (TextView) view.findViewById(R.id.textViewCreatedAt);
+            TextView textView = view.findViewById(R.id.textViewCreatedAt);
             textView.setText(created_at);
         }
 
         void setCreated_by_name(String created_by_name) {
-            TextView textView = (TextView) view.findViewById(R.id.textViewCreatedBy);
+            TextView textView = view.findViewById(R.id.textViewCreatedBy);
             textView.setText(created_by_name);
         }
 
         void setPost_text(String post_text) {
-            TextView textView = (TextView) view.findViewById(R.id.textViewPost);
+            TextView textView = view.findViewById(R.id.textViewPost);
             textView.setText(post_text);
         }
 
         void setCreated_by_uid(String created_by_uid, FirebaseUser user) {
-            ImageView delete = (ImageView) view.findViewById(R.id.imageViewDelete);
+            ImageView delete = view.findViewById(R.id.imageViewDelete);
             delete.setEnabled(Objects.equals(created_by_uid, user.getUid()));
             delete.setVisibility(delete.isEnabled() ? View.VISIBLE : View.INVISIBLE);
         }
 
         void setPost_id(String post_id, FirebaseFirestore mStore) {
-            ImageView delete = (ImageView) view.findViewById(R.id.imageViewDelete);
+            ImageView delete = view.findViewById(R.id.imageViewDelete);
 
             if (delete.isEnabled()) {
                 delete.setOnClickListener(view -> {
