@@ -188,7 +188,5 @@ public class PostsFragment extends Fragment {
         void logout();
 
         void createPost();
-
-        void goBackToPosts();
     }
 }
