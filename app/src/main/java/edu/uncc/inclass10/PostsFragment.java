@@ -176,18 +176,8 @@ public class PostsFragment extends Fragment {
                 delete.setOnClickListener(view -> {
                     mStore.collection("posts").document(post_id)
                             .delete()
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Log.d("demo", "Post successfully deleted");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("demo", "Error deleting post", e);
-                                }
-                            });
+                            .addOnSuccessListener(unused -> Log.d("demo", "Post successfully deleted"))
+                            .addOnFailureListener(e -> Log.w("demo", "Error deleting post", e));
                     Log.d("demo", "onClick: Clicking worked");
                 });
             }
