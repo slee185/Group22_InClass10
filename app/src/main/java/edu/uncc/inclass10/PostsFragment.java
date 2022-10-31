@@ -174,7 +174,7 @@ public class PostsFragment extends Fragment {
 
             if (delete.isEnabled()) {
                 delete.setOnClickListener(view -> {
-                    mStore.collection("posts").document("post")
+                    mStore.collection("posts").document(post_id)
                             .delete()
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
